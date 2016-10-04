@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+	<title>Document</title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		body{
+			background-color: #e0e0e0;
+			padding-top: 100px;
+		}
+		.scrImg{
+			height: 100px;
+			display: inline-block;
+		}
+		.scrImg img{
+			width: 100%;
+			height: 100%;
+		}
+		#img1{
+			background-color: red;
+		}
+		#img2{
+			background-color: green;
+		}
+		#img3{
+			background-color: yellow;
+		}
+		#img4{
+			background-color: pink;
+		}
+		#img5{
+			background-color: greenyellow;
+		}
+	</style>
+	<link rel="stylesheet" href="swiper-3.3.1.min.css">
+	<script src='jquery.js'></script>
+	<script src='swiper-3.3.1.jquery.min.js'></script>
+</head>
+<body>
+	<div class="swiper-container slider">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide scrImg " id="img1">
+               第一個
+            </div>
+            <div class="swiper-slide scrImg " id="img2">
+                第二個
+            </div>
+            <div class="swiper-slide scrImg " id="img3">
+                都三個
+            </div>
+           <div class="swiper-slide scrImg " id="img4">
+           				第四個
+           </div>
+           <div class="swiper-slide scrImg " id="img5">
+           				第五個
+           </div>
+                     <!--  <div class="swiper-slide scrImg " id="img6">
+                                				第六個
+                                </div> -->
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</body>
+
+<script>
+		var scrImg = $(".scrImg");
+		 function getAjax() {
+             $.get('http://www.vrserver.applinzi.com/aixianfeng/apihome.php', function (res) {
+             //截取字符串
+                 var result = res.split("<script")[0];
+                 var slides = JSON.parse(result).data.slide;
+                 console.log(slides);
+                 var scrImg = $(".scrImg");
+                 for(var i=0;i<slides.length;i++){
+                   var liobj = $('<img/>');
+
+                     //var liobj =slides[i].activity.img;
+
+                   //console.log(liobj)
+                     liobj.attr('src',slides[i].activity.img);
+                    // console.log(scrImg.eq(i));
+                    // scrImg.eq(i).html("<img src="+liobj +">");
+                     }
+                     for(var j = 0;j<scrImg.length;j++){
+
+                     	console.log(scrImg[j]);
+                    	scrImg.html(liobj);
+                     }
+
+             })
+
+             slider()
+         }
+
+		getAjax();
+
+	 function slider(){
+            var mySwiper = new Swiper('.swiper-container', {
+                autoplay:2000,
+                loop:true,
+                pagination : '.swiper-pagination',
+                paginationClickable :true,
+                onAutoplayStop:function(swiper){
+                    swiper.startAutoplay();
+                }
+            })
+    }
+    slider();
+</script>
+</html>
